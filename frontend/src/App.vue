@@ -11,3 +11,32 @@
 <style>
 @import "./assets/styles/index.css";
 </style>
+
+<script>
+// import { mapState, mapActions, mapMutations, mapGetters } from "vuex"
+import { mapState } from "vuex"
+// import "./assets/styles/index.less";
+
+export default {
+  name: "app",
+  computed: {
+    ...mapState({
+      user: (state) => state.auth.user
+    })
+  },
+
+  // methods: {
+  //   ...mapActions({
+  //     refreshUser: AUTH_REFRESH_USER
+  //   })
+  // },
+
+  // created() {
+  //   const isAuthenticated = this.user || JSON.parse(localStorage.getItem("user"))
+  //   if (isAuthenticated) {
+  //     this.refreshUser()
+  //   }
+  // },
+
+};
+</script>
