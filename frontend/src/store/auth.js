@@ -9,7 +9,8 @@ export default {
 
   state: () => ({
     auth: {
-      user: null,
+      user: localStorage.getItem('auth') ?? null,
+      token: localStorage.getItem('token') ?? null,
     }
   }),
 
@@ -24,49 +25,95 @@ export default {
   // },
 
   mutations: {
-    SET_AUTH ({state}, value) {
-      // state.auth.user = value
-      if(value){
-        state.auth.user = value
-        localStorage.setItem('user', JSON.stringify(value))
+    SET_AUTH (state, {user, token}) {
+      state.auth.user = user
+      state.auth.token = token
+      if(user){
+        localStorage.setItem('user', JSON.stringify(user))
       }else{
-        state.auth.user = null
         localStorage.removeItem('user')
       }
-
+      if(token){
+        localStorage.setItem('token', JSON.stringify(token))
+      }else{
+        localStorage.removeItem('token')
+      }
     },
+
+    SET_TOKEN(state, value){
+      state.auth.token = value
+      if(value){
+        localStorage.setItem('token', JSON.stringify(value))
+      }else{
+        localStorage.removeItem('token')
+      }
+    },
+
+    SET_USER(state, value){
+      state.auth.user = value
+      if(value){
+        localStorage.setItem('user', JSON.stringify(value))
+      }else{
+        localStorage.removeItem('user')
+      }
+    },
+
   },
 
-
   actions: {
-    async signIn ({ dispatch }, credentials) {
-      console.log("auth, signIn")
+    async signIn ({ dispatch, commit }, credentials) {
+      await axios.get('../sanctum/csrf-cookie')
+      await axios.post("login", credentials)
+        .then((response)=>{
+          commit('SET_TOKEN', response.data.data.token)
+        })
+        .catch((error) => {
+          console.log("error: login failed.")
+          console.error(error)
+          commit('SET_TOKEN', null)
+        })
 
-      await axios.get('sanctum/csrf-cookie')
-      let login_auth = await axios.post("login", credentials);
-      console.log("login_auth")
-      console.log(login_auth)
-
-      dispatch('me')
+      await dispatch('me')
     },
 
     async signOut ({ dispatch }) {
       await axios.post('logout', null)
 
-      dispatch('me')
+      await dispatch('me')
     },
 
-    me ({ commit }) {
-      // console.log("me, response")
-      // console.log(response)
-      // store.commit('SET_AUTH', (response?.data ?? null))
+    async me ({ commit, state }) {
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+          "Authorization": `Bearer ${state.auth.token}`,
+         },
+      };
 
-      return axios.get('user').then((response) => {
-        commit('SET_AUTH', response.data)
+      return await axios.get('user', config)
+      .then((response) => {
+        commit('SET_USER', {user: response.data})
       }).catch(() => {
-        commit('SET_AUTH', null)
+        commit('SET_USER', null)
       })
     }
+
+    // async me ({ commit }) {
+    //   let token = "28|4QwlF0yH9KU35Py7lZfVN6VqF9b2PEqAhUz1tI9s"
+    //   const config = {
+    //     headers: {
+    //       "Content-type": "application/json",
+    //       "Authorization": `Bearer ${token}`,
+    //      },
+    //   };
+
+    //   return await axios.get('user', config)
+    //   .then((response) => {
+    //     commit('SET_USER', response.data)
+    //   }).catch(() => {
+    //     commit('SET_USER', null)
+    //   })
+    // }
 
   },
 

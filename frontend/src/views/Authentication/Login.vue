@@ -68,7 +68,7 @@
 // https://fonts.google.com/icons?selected=Material+Icons&icon.query=email
 
 // import { mapState, mapActions, mapGetters, mapMutations } from "vuex";
-import { mapActions } from "vuex";
+import { mapState, mapActions } from "vuex";
 
 // import {login} from '@/services/Authentication'
 // import {signIn} from '@/store/auth'
@@ -89,14 +89,9 @@ export default {
   },
 
   computed: {
-    // ...mapState({
-    //   auth: (state) => {
-    //     console.log("auth, state")
-    //     console.log(state)
-    //     // return state.auth.auth
-    //     return "state.auth.auth"
-    //   },
-    // }),
+    ...mapState({
+      auth: (state) => state.auth,
+    }),
     // ...mapGetters({
     //   // user: "user",
     // }),
@@ -114,18 +109,13 @@ export default {
       try{
         // await this.$store.commit("auth/signIn", this.user)
         await this.signIn(this.user)
-
+console.log("this.auth")
+console.log(this.auth)
         if(this.auth.user){
-          // this.$router.replace({ name: 'home' })
-          this.$router.push('home')
+          this.$router.replace({ name: 'home' })
+          // this.$router.push('home')
 
           this.user.authenticated = 0
-
-          // let data = result.data.data
-          // {
-          //     "token": "3|6lNTOQZ1JSocy5lADAGp1j29tWStd2yUQ1tzXVXL",
-          //     "name": "Nguyen Ngoc Nam"
-          // }
 
         }else{
           this.user.authenticated = 1
