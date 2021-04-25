@@ -1,10 +1,10 @@
-import {API_HOST} from "@/constants"
+// import {API_HOST} from "@/constants"
 import axios from 'axios'
 
-export const login = async (params = null) => {
-    return await axios.post(API_HOST + "login", params);
+export const login = async (credentials = null) => {
+  return await axios.post("login", credentials);
 }
 
-export const register = async (params = null) => {
-  return await axios.post(API_HOST + "register", params);
+export const register = async (credentials = null) => {
+  return await axios.post("register", credentials);
 }

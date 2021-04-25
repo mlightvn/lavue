@@ -24,6 +24,16 @@ Route::post('register', [App\Http\Controllers\Api\AuthController::class, 'regist
 Route::post('login', [App\Http\Controllers\Api\AuthController::class, 'login']);
 Route::any('logout', [App\Http\Controllers\Api\AuthController::class, 'logout']);
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
 });
