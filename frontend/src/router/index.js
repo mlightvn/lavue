@@ -32,6 +32,10 @@ const routes = [
     component: () => import('../views/Products/Index.vue'),
     meta: { auth: true },
   },
+  {
+    path: "/products/:catchAll(.*)",
+    component: () => import('../views/Products/Detail.vue'),
+  },
 
   {
     path: "/:catchAll(.*)",

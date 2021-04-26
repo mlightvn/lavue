@@ -1,6 +1,6 @@
 <template>
   <div class="about">
-    <h1>LOGIN</h1>
+    <h1>REGISTER</h1>
     <div class="container">
       <div class="row">
         <form class="col s12 m6 offset-m3">

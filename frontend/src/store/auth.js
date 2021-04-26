@@ -98,23 +98,6 @@ export default {
       })
     }
 
-    // async me ({ commit }) {
-    //   let token = "28|4QwlF0yH9KU35Py7lZfVN6VqF9b2PEqAhUz1tI9s"
-    //   const config = {
-    //     headers: {
-    //       "Content-type": "application/json",
-    //       "Authorization": `Bearer ${token}`,
-    //      },
-    //   };
-
-    //   return await axios.get('user', config)
-    //   .then((response) => {
-    //     commit('SET_USER', response.data)
-    //   }).catch(() => {
-    //     commit('SET_USER', null)
-    //   })
-    // }
-
   },
 
 }
