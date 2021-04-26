@@ -82,6 +82,23 @@ export default {
       await  commit('SET_USER', null)
     },
 
+    async register ({ dispatch, commit }, credentials) {
+      await axios.get('../sanctum/csrf-cookie')
+      await axios.post("register", credentials)
+        .then((response)=>{
+          console.log("response.data")
+          console.log(response.data)
+          commit('SET_TOKEN', response.data.data.token)
+        })
+        .catch((error) => {
+          console.log("error: register failed.")
+          console.error(error)
+          commit('SET_TOKEN', null)
+        })
+
+      await dispatch('me')
+    },
+
     async me ({ commit, state }) {
       const config = {
         headers: {
@@ -96,7 +113,7 @@ export default {
       }).catch(() => {
         commit('SET_USER', null)
       })
-    }
+    },
 
   },
 

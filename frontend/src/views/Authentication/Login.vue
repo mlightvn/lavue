@@ -3,7 +3,11 @@
     <h1>LOGIN</h1>
     <div class="container">
       <div class="row">
-        <form class="col s12 m6 offset-m3">
+        <form
+          class="col s12 m6 offset-m3"
+          action="#"
+          @submit.prevent="submit"
+        >
           <div class="row">
             <div class="input-field col s12">
               <i class="material-icons prefix">email</i>
@@ -26,7 +30,7 @@
           <div class="row">
             <div class="col s6">
               <button
-                type="button"
+                type="submit"
                 class="waves-effect waves-light btn-large primary"
                 @click="handleLogin"
               >Login</button>
@@ -81,7 +85,7 @@ export default {
         email: "ngocnam.sk@gmail.com",
         password: "12345678",
         authenticated: null, //0: success, 1: failed, null: not logged-in yet
-      }
+      },
     }
   },
 
