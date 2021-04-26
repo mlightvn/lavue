@@ -76,10 +76,10 @@ export default {
       await dispatch('me')
     },
 
-    async signOut ({ dispatch }) {
+    async signOut ({ commit }) {
       await axios.post('logout', null)
 
-      await dispatch('me')
+      await  commit('SET_USER', null)
     },
 
     async me ({ commit, state }) {

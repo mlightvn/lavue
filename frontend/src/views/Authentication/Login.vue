@@ -70,9 +70,6 @@
 // import { mapState, mapActions, mapGetters, mapMutations } from "vuex";
 import { mapState, mapActions } from "vuex";
 
-// import {login} from '@/services/Authentication'
-// import {signIn} from '@/store/auth'
-
 export default {
   name: 'Login',
   components: {
@@ -90,7 +87,7 @@ export default {
 
   computed: {
     ...mapState({
-      auth: (state) => state.auth,
+      auth: (state) => state.auth.auth,
     }),
     // ...mapGetters({
     //   // user: "user",
@@ -107,13 +104,13 @@ export default {
     async handleLogin() {
 
       try{
-        // await this.$store.commit("auth/signIn", this.user)
         await this.signIn(this.user)
-console.log("this.auth")
-console.log(this.auth)
         if(this.auth.user){
-          this.$router.replace({ name: 'home' })
-          // this.$router.push('home')
+          if(this.$route.query.redirect){
+            this.$router.push(this.$route.query.redirect)
+          }else{
+            this.$router.replace({ name: 'Home' })
+          }
 
           this.user.authenticated = 0
 

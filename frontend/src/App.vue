@@ -6,7 +6,7 @@
       <router-link to="/register"><i class="fas fa-registered"></i> Register</router-link> |
     </span>
     <span v-if="auth">
-      <router-link to="/logout"><i class="fas fa-sign-out-alt"></i> Logout</router-link> |
+      <a href="javascript:void(0);" @click="handleLogout"><i class="fas fa-sign-out-alt"></i> Logout</a> |
     </span>
     <router-link to="/about"><i class="fas fa-address-card"></i> About</router-link> |
     <router-link to="/products"><i class="fab fa-product-hunt"></i> Products (Auth Only)</router-link>
@@ -20,7 +20,7 @@
 
 <script>
 // import { mapState, mapActions, mapMutations, mapGetters } from "vuex"
-import { mapState } from "vuex"
+import { mapState, mapActions, } from "vuex"
 // import "./assets/styles/index.less";
 
 export default {
@@ -37,11 +37,26 @@ export default {
     }
   },
 
-  // methods: {
-  //   ...mapActions({
-  //     refreshUser: AUTH_REFRESH_USER
-  //   })
-  // },
+  methods: {
+    ...mapActions({
+      signOut: "auth/signOut",
+    }),
+
+    async handleLogout() {
+
+      try{
+        await this.signOut()
+
+      }catch(e){
+        console.log("Logout failed")
+        console.error(e)
+      }finally{
+        this.$router.push({ name: 'Login' })
+      }
+
+    },
+
+  },
 
   // created() {
   //   const isAuthenticated = this.user || JSON.parse(localStorage.getItem("user"))
